@@ -192,6 +192,61 @@ function estore_admin_scripts( $hook ) {
 	}
 }
 
+add_action('woocommerce_thankyou', 'enroll_student', 10, 1);
+function enroll_student( $order_id ) {
+    if ( ! $order_id )
+        return;
+
+    // Allow code execution only once 
+    if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
+
+        // Get an instance of the WC_Order object
+        $order = wc_get_order( $order_id );
+
+        // Get the order key
+        $order_key = $order->get_order_key();
+
+        // Get the order number
+        $order_key = $order->get_order_number();
+
+        if($order->is_paid())
+            $paid = __('yes');
+        else
+            $paid = __('no');
+
+        // Loop through order items
+        foreach ( $order->get_items() as $item_id => $item ) {
+
+            // Get the product object
+            $product = $item->get_product();
+
+            // Get the product Id
+            $product_id = $product->get_id();
+
+            // Get the product name
+            $product_id = $item->get_name();
+        }
+
+		$url = getenv('REMOTE_ADDR');
+		$data = array('key1' => 'value1', 'key2' => 'value2');
+		
+		// use key 'http' even if you send the request to https://...
+		$options = array(
+			'http' => array(
+				'header'  => "Content-type: application;x-api-key: fTi2sQWGQg1mtFIiJsiny5w0StbS3tqA8o14uFWU/x-www-form-urlencoded\r\n",
+				'method'  => 'POST',
+				'content' => http_build_query($data)
+			)
+		);
+        // Output some data
+        echo '<p>Order ID: '. $order_id . ' — Order Status: ' . $order->get_status() . ' — Order is paid: ' . $paid . '</p>';
+
+        // Flag the action as done (to avoid repetitions on reload for example)
+        $order->update_meta_data( '_thankyou_action_done', true );
+        $order->save();
+    }
+}
+
 /**
  * Customizer additions.
  */
