@@ -227,17 +227,28 @@ function enroll_student( $order_id ) {
             $product_id = $item->get_name();
         }
 
-		$url = getenv('REMOTE_ADDR');
+		$url = getenv('URL') + "orders";
+		$apiKey = getenv('ApiKey');
 		$data = array('key1' => 'value1', 'key2' => 'value2');
 		
 		// use key 'http' even if you send the request to https://...
 		$options = array(
 			'http' => array(
-				'header'  => "Content-type: application;x-api-key: fTi2sQWGQg1mtFIiJsiny5w0StbS3tqA8o14uFWU/x-www-form-urlencoded\r\n",
+				'header'  => "Content-type: application;x-api-key: {$apiKey}/x-www-form-urlencoded\r\n",
 				'method'  => 'POST',
 				'content' => http_build_query($data)
 			)
 		);
+
+		print_r($options);
+		error_log(print_r($options,true));
+		$context  = stream_context_create($options);
+		$result = file_get_contents($url, false, $context);
+		print_r($result);
+		error_log(print_r($result,true));
+		if ($result === FALSE) { /* Handle error */ }
+
+		var_dump($result);
         // Output some data
         echo '<p>Order ID: '. $order_id . ' — Order Status: ' . $order->get_status() . ' — Order is paid: ' . $paid . '</p>';
 
