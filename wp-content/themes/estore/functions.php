@@ -227,6 +227,8 @@ function enroll_student( $order_id ) {
             $product_id = $item->get_name();
         }
 
+		print_r(getenv('URL'));
+		print_r(getenv('ApiKey'));
 		$url = getenv('URL') + "orders";
 		$apiKey = getenv('ApiKey');
 		$data = array('key1' => 'value1', 'key2' => 'value2');
