@@ -19,6 +19,8 @@ services:
     ports:
       - "80:80"
     restart: always
+    env_file:
+      - ./.env
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress-dev
