@@ -229,7 +229,7 @@ function enroll_student( $order_id ) {
 
 		error_log(print_r(getenv('URL'),true));
 		error_log(print_r(getenv('ApiKey'),true));
-		$url = getenv('URL') + "orders";
+		$url = getenv('URL')."orders";
 		$apiKey = getenv('ApiKey');
 		$data = array('key1' => 'value1', 'key2' => 'value2');
 		
