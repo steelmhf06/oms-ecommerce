@@ -236,9 +236,9 @@ function enroll_student( $order_id ) {
 		// use key 'http' even if you send the request to https://...
 		$options = array(
 			'http' => array(
-				'header'  => "Content-type: application;x-api-key: {$apiKey}/x-www-form-urlencoded\r\n",
+				'header'  => "Content-type: application/json\r\n"."x-api-key: {$apiKey}/\r\n",
 				'method'  => 'POST',
-				'content' => http_build_query($data)
+				'content' => json_encode($data)
 			)
 		);
 
