@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: qpalwosk10
+      MYSQL_DATABASE: oms-dev
+      MYSQL_USER: wordpress-dev
+      MYSQL_PASSWORD: qpalwosk10
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    volumes:
+      - ../../../:/var/www/html
+    ports:
+      - "8000:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress-dev
+      WORDPRESS_DB_PASSWORD: qpalwosk10
+      WORDPRESS_DB_NAME: oms-dev
+volumes:
+    db_data: {}
