@@ -232,11 +232,11 @@ function enroll_student( $order_id ) {
 		$url = getenv('URL')."orders";
 		$apiKey = getenv('ApiKey');
 		$data = array('key1' => 'value1', 'key2' => 'value2');
-		
+		error_log(print_r($url,true));
 		// use key 'http' even if you send the request to https://...
 		$options = array(
 			'http' => array(
-				'header'  => "Content-type: application/json\r\n"."x-api-key: {$apiKey}/\r\n",
+				'header'  => "Content-type: application/json\r\n"."x-api-key: {$apiKey}\r\n",
 				'method'  => 'POST',
 				'content' => json_encode($data)
 			)
