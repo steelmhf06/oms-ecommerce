@@ -227,7 +227,7 @@ function enroll_student( $order_id ) {
 				'brand' => 'Marca');
             array_push($items, $item);
 		}
-		$customer = (object) array( 'id' => $order->get_customer_id(), 'name' => $order->get_formatted_billing_full_name());
+		$customer = (object) array( 'id' => strval($order->get_customer_id()), 'name' => $order->get_formatted_billing_full_name());
 		$shippingAddress = (object) array( 'address' => $order->get_billing_address_1());
 		$requestOrder = (object) array(
 			'rawAmount' => $order->get_subtotal(),
