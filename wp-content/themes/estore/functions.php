@@ -213,8 +213,19 @@ function enroll_student( $order_id ) {
 		// Loop through order items
 		$items = array();
         foreach ( $order->get_items() as $item_id => $item ) {
-            $item = (object) array('sku' => $item->get_product_id(), 'name' => $item->get_name(), 'quantity' => $item->get_quantity());
-
+			$product = wc_get_product( $item['product_id'] );
+			$color = (object) array('code' => 'Proyecto', 'description' => 'Final');
+			$image_id  = $product->get_image_id();
+			$image_url = wp_get_attachment_image_url( $image_id, 'full' );
+			$custom = (object) array('thumbnail' => $image_url, 'url' => get_permalink($product->get_id()));
+			error_log(print_r($image_id,true));
+			error_log(print_r($image_url,true));
+            $item = (object) array(
+				'sku' => $product->get_sku(),
+				'name' => $item->get_name(),
+				'quantity' => $item->get_quantity(),
+				'season' => 'Temporada',
+				'brand' => 'Marca');
             array_push($items, $item);
 		}
 		$customer = (object) array( 'id' => $order->get_customer_id(), 'name' => $order->get_formatted_billing_full_name());
@@ -223,8 +234,8 @@ function enroll_student( $order_id ) {
 			'rawAmount' => $order->get_subtotal(),
 			'totalAmount' => $order->get_total(),
 			'discount' => $order->get_total_discount(),
-			'creationDate' => $order->get_date_created(),
-			'ecommerceId' => $order_id,
+			'creationDate' => $order->get_date_created()['date'],
+			'ecommerceId' => $order>get_order_key(),
 			'site' => 'proyectofinaltest.com',
 			'items' => $items,
 			'shippingType' => 'DD',
@@ -249,13 +260,13 @@ function enroll_student( $order_id ) {
 		error_log(print_r($options,true));
 		$context  = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);
-		print_r($result);
+		error_log(print_r($result,true));
 		error_log(print_r($result,true));
 		if ($result === FALSE) { /* Handle error */ }
 
 		var_dump($result);
         // Output some data
-        echo '<p>Order ID: '. $order_id . ' — Order Status: ' . $order->get_status() . ' — Order is paid: ' . $paid . '</p>';
+        echo '<p>Order ID: '. $order_id . ' — Order Status: ' . $order->get_status() . '</p>';
 
         // Flag the action as done (to avoid repetitions on reload for example)
         $order->update_meta_data( '_thankyou_action_done', true );
