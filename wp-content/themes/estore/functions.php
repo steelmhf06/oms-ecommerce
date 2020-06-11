@@ -226,6 +226,8 @@ function enroll_student( $order_id ) {
 				'quantity' => $item->get_quantity(),
 				'season' => 'Temporada',
 				'brand' => 'Marca',
+				'color' => $color,
+				'size' => $size,
 				'custom' => $custom);
             array_push($items, $item);
 		}
