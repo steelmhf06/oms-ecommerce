@@ -256,7 +256,6 @@ function enroll_student( $order_id ) {
 			)
 		);
 
-		print_r($options);
 		error_log(print_r($options,true));
 		$context  = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);
