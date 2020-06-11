@@ -228,12 +228,12 @@ function enroll_student( $order_id ) {
             array_push($items, $item);
 		}
 		$customer = (object) array( 'id' => $order->get_customer_id(), 'name' => $order->get_formatted_billing_full_name());
-		$shippingAddress = (object) array( 'address' => $order->get_formatted_billing_address());
+		$shippingAddress = (object) array( 'address' => $order->get_billing_address_1());
 		$requestOrder = (object) array(
 			'rawAmount' => $order->get_subtotal(),
 			'totalAmount' => $order->get_subtotal(),
 			'discount' => $order->get_total_discount(),
-			'creationDate' => $order->get_date_created(),
+			'creationDate' => $order->get_date_created()->date('Y-m-d'),
 			'ecommerceId' => $order->get_order_key(),
 			'site' => 'proyectofinaltest.com',
 			'items' => $items,
