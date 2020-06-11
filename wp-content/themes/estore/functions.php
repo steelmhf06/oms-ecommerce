@@ -224,11 +224,13 @@ function enroll_student( $order_id ) {
 				'name' => $item->get_name(),
 				'quantity' => $item->get_quantity(),
 				'season' => 'Temporada',
-				'brand' => 'Marca');
+				'brand' => 'Marca',
+				'custom' => $custom);
             array_push($items, $item);
 		}
 		$customer = (object) array( 'id' => strval($order->get_customer_id()), 'name' => $order->get_formatted_billing_full_name());
-		$shippingAddress = (object) array( 'address' => $order->get_billing_address_1());
+		$location = new stdClass();
+		$shippingAddress = (object) array( 'address' => $order->get_billing_address_1(), 'location' => $location);
 		$requestOrder = (object) array(
 			'rawAmount' => $order->get_subtotal(),
 			'totalAmount' => $order->get_subtotal(),
