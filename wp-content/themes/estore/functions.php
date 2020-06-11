@@ -261,10 +261,8 @@ function enroll_student( $order_id ) {
 		$context  = stream_context_create($options);
 		$result = file_get_contents($url, false, $context);
 		error_log(print_r($result,true));
-		error_log(print_r($result,true));
 		if ($result === FALSE) { /* Handle error */ }
 
-		var_dump($result);
         // Output some data
         echo '<p>Order ID: '. $order_id . ' — Order Status: ' . $order->get_status() . '</p>';
 
