@@ -218,7 +218,6 @@ function enroll_student( $order_id ) {
 			$image_id  = $product->get_image_id();
 			$image_url = wp_get_attachment_image_url( $image_id, 'full' );
 			$custom = (object) array('thumbnail' => $image_url, 'url' => get_permalink($product->get_id()));
-			error_log(print_r($image_id,true));
 			error_log(print_r($image_url,true));
             $item = (object) array(
 				'sku' => $product->get_sku(),
@@ -234,8 +233,8 @@ function enroll_student( $order_id ) {
 			'rawAmount' => $order->get_subtotal(),
 			'totalAmount' => $order->get_total(),
 			'discount' => $order->get_total_discount(),
-			'creationDate' => $order->get_date_created()->date,
-			'ecommerceId' => $order>get_order_key(),
+			'creationDate' => $order->get_date_created(),
+			'ecommerceId' => $order->get_order_key(),
 			'site' => 'proyectofinaltest.com',
 			'items' => $items,
 			'shippingType' => 'DD',
