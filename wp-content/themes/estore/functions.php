@@ -215,6 +215,7 @@ function enroll_student( $order_id ) {
         foreach ( $order->get_items() as $item_id => $item ) {
 			$product = wc_get_product( $item['product_id'] );
 			$color = (object) array('code' => 'Proyecto', 'description' => 'Final');
+			$size = (object) array('code' => 'M', 'description' => 'Prueba');
 			$image_id  = $product->get_image_id();
 			$image_url = wp_get_attachment_image_url( $image_id, 'full' );
 			$custom = (object) array('thumbnail' => $image_url, 'url' => get_permalink($product->get_id()));
