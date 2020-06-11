@@ -220,7 +220,7 @@ function enroll_student( $order_id ) {
 			$custom = (object) array('thumbnail' => $image_url, 'url' => get_permalink($product->get_id()));
 			error_log(print_r($image_url,true));
             $item = (object) array(
-				'sku' => $product->get_sku(),
+				'sku' => strval($product->get_id()),
 				'name' => $item->get_name(),
 				'quantity' => $item->get_quantity(),
 				'season' => 'Temporada',
@@ -231,14 +231,15 @@ function enroll_student( $order_id ) {
 		$shippingAddress = (object) array( 'address' => $order->get_formatted_billing_address());
 		$requestOrder = (object) array(
 			'rawAmount' => $order->get_subtotal(),
-			'totalAmount' => $order->get_total(),
+			'totalAmount' => $order->get_subtotal(),
 			'discount' => $order->get_total_discount(),
 			'creationDate' => $order->get_date_created(),
 			'ecommerceId' => $order->get_order_key(),
 			'site' => 'proyectofinaltest.com',
 			'items' => $items,
 			'shippingType' => 'DD',
-			'customer' => $customer);
+			'customer' => $customer,
+			'shippingAddress' => $shippingAddress);
 		error_log(print_r(json_encode($items),true));
 		error_log(print_r(json_encode($requestOrder),true));
 		error_log(print_r(json_encode($order),true));
