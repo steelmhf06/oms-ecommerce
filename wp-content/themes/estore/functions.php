@@ -234,7 +234,7 @@ function enroll_student( $order_id ) {
 			'totalAmount' => $order->get_subtotal(),
 			'discount' => $order->get_total_discount(),
 			'creationDate' => $order->get_date_created()->date('Y-m-d'),
-			'ecommerceId' => $order->get_order_key(),
+			'ecommerceId' => strtoupper(explode("_", $order->get_order_key())[2]),
 			'site' => 'proyectofinaltest.com',
 			'items' => $items,
 			'shippingType' => 'DD',
