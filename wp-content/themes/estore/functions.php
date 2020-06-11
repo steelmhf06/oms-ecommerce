@@ -201,44 +201,48 @@ function enroll_student( $order_id ) {
     if( ! get_post_meta( $order_id, '_thankyou_action_done', true ) ) {
 
         // Get an instance of the WC_Order object
-        $order = wc_get_order( $order_id );
-
+		$order = wc_get_order( $order_id );
+		
+		$order_data = $order->get_data();
         // Get the order key
         $order_key = $order->get_order_key();
 
         // Get the order number
         $order_key = $order->get_order_number();
 
-        if($order->is_paid())
-            $paid = __('yes');
-        else
-            $paid = __('no');
-
-        // Loop through order items
+		// Loop through order items
+		$items = array();
         foreach ( $order->get_items() as $item_id => $item ) {
 
-            // Get the product object
-            $product = $item->get_product();
+            $item = (object) array('sku' => $items->get_product_id(), 'name' => $item->get_name(), 'quantity' => $item->get_quantity());
 
-            // Get the product Id
-            $product_id = $product->get_id();
-
-            // Get the product name
-            $product_id = $item->get_name();
-        }
-
+            array_push($items, $item);
+		}
+		$customer = (object) array( 'id' => $order->get_customer_id(), 'name' => $order->get_formatted_billing_full_name());
+		$shippingAddress = (object) array( 'address' => $order->get_formatted_billing_address());
+		$requestOrder = (object) array(
+			'rawAmount' => $order->get_subtotal(),
+			'totalAmount' => $order->get_total(),
+			'discount' => $order->get_total_discount(),
+			'creationDate' => $order->get_date_created(),
+			'ecommerceId' => $order_id,
+			'site' => 'proyectofinaltest.com',
+			'items' => $items,
+			'shippingType' => 'DD',
+			'customer' => $customer);
+		error_log(print_r(json_encode($items),true));
+		error_log(print_r(json_encode($requestOrder),true));
+		error_log(print_r(json_encode($order),true));
 		error_log(print_r(getenv('URL'),true));
 		error_log(print_r(getenv('ApiKey'),true));
 		$url = getenv('URL')."orders";
 		$apiKey = getenv('ApiKey');
-		$data = array('key1' => 'value1', 'key2' => 'value2');
 		error_log(print_r($url,true));
-		// use key 'http' even if you send the request to https://...
 		$options = array(
 			'http' => array(
 				'header'  => "Content-type: application/json\r\n"."x-api-key: {$apiKey}\r\n",
 				'method'  => 'POST',
-				'content' => json_encode($data)
+				'content' => json_encode($requestOrder)
 			)
 		);
 
