@@ -213,8 +213,7 @@ function enroll_student( $order_id ) {
 		// Loop through order items
 		$items = array();
         foreach ( $order->get_items() as $item_id => $item ) {
-
-            $item = (object) array('sku' => $items->get_product_id(), 'name' => $item->get_name(), 'quantity' => $item->get_quantity());
+            $item = (object) array('sku' => $item->get_product_id(), 'name' => $item->get_name(), 'quantity' => $item->get_quantity());
 
             array_push($items, $item);
 		}
